@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import uuid from 'uuid'; // Crea ID único
+import PropTypes from 'prop-types';
 
 class Formulario extends Component {
 
@@ -105,6 +106,10 @@ class Formulario extends Component {
             </div>
         )
     }
+}
+
+Formulario.propTypes = {
+    crearCita: PropTypes.func.isRequired,
 }
 
 export default Formulario;

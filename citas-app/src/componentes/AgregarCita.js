@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Formulario from './Formulario';
+import PropTypes from 'prop-types';
 
 class AgregarCita extends Component {
 
@@ -18,6 +19,10 @@ class AgregarCita extends Component {
             </div>
         )
     }
+}
+
+AgregarCita.propTypes = {
+    crearCita: PropTypes.func.isRequired,
 }
 
 export default AgregarCita;

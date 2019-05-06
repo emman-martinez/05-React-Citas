@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from './Header';
 import AgregarCita from './AgregarCita';
+import ListaCitas from './ListaCitas';
 import Imagen from './Imagen';
 
 class App extends Component {
@@ -8,6 +9,41 @@ class App extends Component {
   state = {
     citas: []
   }
+
+  /* ***** Ciclo de vida de los componentes ***** */
+
+  // ***** componentDidMount()
+  componentDidMount() {
+    // console.log('Esta listo');
+    const citasLS = localStorage.getItem('citas');
+    if (citasLS) {
+      this.setState({
+        citas: JSON.parse(citasLS) // Convierte de un string a un objeto
+      })
+    }
+  }
+
+  // ***** componentDidUpdate()
+  componentDidUpdate() {
+    //console.log('¡¡Algo cambio!!');
+    /* ***** Uso de Local Storage: Solo puede almacenar cadenas de texto ***** */
+    localStorage.setItem(
+      'citas',
+      JSON.stringify(this.state.citas) // Convierte de un objeto a un string
+    )
+  }
+
+  /*
+  // ***** componentWillMount()
+  componentWillMount() {
+    console.log('Yo me ejecuto antes');
+  }
+
+  // ***** componentWillUnmount()
+  componentWillUnmount() {
+    console.log('Yo hasta que se cierra el componente');
+  }
+  */
 
   crearCita = (nuevaCita) => {
     // console.log('Desde app.js');
@@ -18,6 +54,29 @@ class App extends Component {
     this.setState({
       citas: citas,
     })
+  }
+
+  borrarCita = id => {
+    console.log(id);
+    // ***** Obtener copia del state
+    const citasActuales = [...this.state.citas];
+    /*
+    console.log('Antes...');
+    console.log(citasActuales);
+    */
+
+    // ***** Borrar el elemento del state
+    const citas = citasActuales.filter(cita => cita.id !== id);
+    /*
+    console.log('Despues...');
+    console.log(citas);
+    */
+
+    // ***** Actualizar el state
+    this.setState({
+      citas
+    });
+
   }
 
   render(){
@@ -33,6 +92,13 @@ class App extends Component {
             <AgregarCita
                           crearCita={this.crearCita}
             ></AgregarCita>
+          </div>
+          {/* ***** Componente: ListaCitas ***** */}
+          <div className="col-md-6">
+            <ListaCitas
+                        citas={this.state.citas}
+                        borrarCita={this.borrarCita}
+            ></ListaCitas>
           </div>
         </div>
         {/* ***** Componente: Imagen ***** */}
